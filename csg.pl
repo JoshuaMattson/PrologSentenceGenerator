@@ -1,24 +1,27 @@
-% :- consult('small_dictionary.pl').
+% Sentence Generator
+% Owen & Joshua 
+% CPSC 312 2019
+
 
 % Pattern 1
-articlesp1(A) :- random_member(A, ['my', 'this']).
+articlesp1(A) :- random_member(A, ['my', 'this', 'our']).
 nounsp1a(N) :- random_member(N, ['computer', 'macbook', 'laptop']).
 verbsp1(V) :- random_member(V, ['is running', 'runs', 'operates', 'computes']).
 nounsp1b(AD) :- random_member(AD, ['prolog', 'macOS Sierra', 'our prolog project']).
 
 % Pattern 2
 articlesp2(A) :- random_member(A, ['the', 'a', 'this', 'one']).
-adjectiveOnep2(AD) :- random_member(AD, ['green', 'brown', 'large', 'small']).
+adjectiveOnep2(AD) :- random_member(AD, ['green', 'brown', 'large', 'small', 'tiny', 'huge']).
 nounsp2(N) :- random_member(N, ['frog', 'tree', 'bush', 'animal', 'plant']).
 verbsp2(V) :- random_member(V, ['is']).
-adverbsp2(ADV) :- random_member(ADV, ['natural', 'biological', 'living', 'alive']).
+adjectiveTwop2(ADV) :- random_member(ADV, ['natural', 'biological', 'living', 'alive', 'beautiful', 'cute', 'strange']).
 
 % Pattern 3
-adjectiveOnep3(A) :- random_member(A, ['colourless', 'transparent', 'silent', 'difficult']).
-adjectiveTwop3(AD) :- random_member(AD, ['green', 'metallic', 'red', 'blue']).
-nounsp3(N) :- random_member(N, ['ideas', 'memories', 'dreams', 'cities']).
-verbsp3(V) :- random_member(V, ['sleep', 'walk', 'jump', 'sing']).
-adverbsp3(ADV) :- random_member(ADV, ['furiously', 'calmly', 'softly', 'strictly']).
+adjectiveOnep3(A) :- random_member(A, ['colourless', 'transparent', 'silent', 'difficult', 'strange', 'saturated', 'limitless', 'orthoganal']).
+adjectiveTwop3(AD) :- random_member(AD, ['green', 'metallic', 'red', 'blue', 'squishy', 'tough', 'cold', 'distant', 'near', 'unfamiliar']).
+nounsp3(N) :- random_member(N, ['ideas', 'memories', 'dreams', 'cities', 'novels', 'audiences', 'trees', 'sunsets']).
+verbsp3(V) :- random_member(V, ['sleep', 'walk', 'jump', 'sing', 'dance', 'scream', 'talk', 'pounce', 'cry', 'listen']).
+adverbsp3(ADV) :- random_member(ADV, ['furiously', 'calmly', 'softly', 'strictly', 'slowly', 'intently', 'menacingly', 'respectfully']).
 
 
 % DCG Grammar rules
@@ -34,7 +37,7 @@ articlesp2 --> [Word], {articlesp2(Word)}.
 adjectiveOnep2 --> [Word], {adjectiveOnep2(Word)}.
 nounsp2 --> [Word], {nounsp2(Word)}.
 verbsp2 --> [Word], {verbsp2(Word)}.
-adverbsp2 --> [Word], {adverbsp2(Word)}.
+adjectiveTwop2 --> [Word], {adjectiveTwop2(Word)}.
 
 % Pattern 3
 adjectiveOnep3 --> [Word], {adjectiveOnep3(Word)}.
@@ -45,7 +48,7 @@ adverbsp3 --> [Word], {adverbsp3(Word)}.
 
 
 ssp_phrase --> articlesp1, nounsp1a, verbsp1, nounsp1b.
-ss_phrase --> articlesp2, adjectiveOnep2, nounsp2, verbsp2, adverbsp2.
+ss_phrase --> articlesp2, adjectiveOnep2, nounsp2, verbsp2, adjectiveTwop2.
 s_phrase --> adjectiveOnep3, adjectiveTwop3, nounsp3, verbsp3, adverbsp3.
 nonsense_phrase --> adverbsp3, verbsp3, nounsp3, adjectiveTwop3, adjectiveOnep3.
 
@@ -72,12 +75,12 @@ print_line(Line) :-
 	(write(Word), write(' '))).
 
 
-
+% User Input
 start :- 
-	write("\nWhat kind of sentence would you like to generate? Choose a number"),
-	write("\n1. Syntax, Semantic, and Pragmatic"),
-	write("\n2. Syntax and Semantic"),
-	write("\n3. Syntax"),
+	write("\nWhat kind of sentence would you like to generate? Choose a corresponding number below"),
+	write("\n1. Syntax, Semantics, and Pragmatics"),
+	write("\n2. Syntax and Semantics"),
+	write("\n3. Syntax (Chomsky Sentence)"),
 	write("\n4. NONSENSE\n"),
 	read(Number),
 	query(Number),
@@ -90,7 +93,7 @@ query(Number) :-
 	isFour(Number, 4).
 
 
-% put random output in this check here
+% Handles user input
 isOne(A, B) :-
 	A == B,
 	write("\n"),
@@ -115,10 +118,5 @@ isFour(A, B) :-
 
 
 :- start.
-
-/* print_line(Line) :-
-	foreach(member(Word, Line), write(Word)),
-	write(' ').	
-*/
 
 
